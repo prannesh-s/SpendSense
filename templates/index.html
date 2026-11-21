@@ -1,0 +1,220 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>SpendSense | Student Finance Manager</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+
+<div class="app">
+
+    <aside class="sidebar">
+        <div class="brand">◈ SpendSense</div>
+
+        <p class="side-label">MENU</p>
+
+        <a href="#dashboard" class="active">▦ Dashboard</a>
+        <a href="#transactions">⇄ Transactions</a>
+        <a href="#budget-section">◎ Budget</a>
+        <a href="#analytics">▥ Analytics</a>
+
+        <div class="side-note">
+            <h3>Spend wisely.</h3>
+            <p>Small savings today can create better habits tomorrow.</p>
+        </div>
+    </aside>
+
+    <main class="main">
+
+        <header class="topbar">
+            <div>
+                <h1>Dashboard</h1>
+                <p id="today"></p>
+            </div>
+
+            <div class="profile">SS</div>
+        </header>
+
+        <section id="dashboard">
+
+            <div class="welcome">
+                <div>
+                    <p>YOUR FINANCIAL OVERVIEW</p>
+                    <h2>Welcome to SpendSense!</h2>
+                    <span>Understand your spending. Improve your habits.</span>
+                </div>
+                <div class="welcome-icon">₹</div>
+            </div>
+
+            <div class="stats">
+
+                <div class="stat-card">
+                    <p>Total Income</p>
+                    <h2 id="income">₹0</h2>
+                    <small>This month</small>
+                </div>
+
+                <div class="stat-card">
+                    <p>Total Expenses</p>
+                    <h2 id="expense">₹0</h2>
+                    <small>This month</small>
+                </div>
+
+                <div class="stat-card">
+                    <p>Remaining Balance</p>
+                    <h2 id="balance">₹0</h2>
+                    <small>Income minus expenses</small>
+                </div>
+
+                <div class="stat-card">
+                    <p>Daily Average</p>
+                    <h2 id="average">₹0</h2>
+                    <small>Expenses per elapsed day</small>
+                </div>
+
+            </div>
+        </section>
+
+        <section class="content-grid">
+
+            <div class="panel" id="transactions">
+                <div class="section-heading">
+                    <div>
+                        <h2>Add Transaction</h2>
+                        <p>Record your income or expenses</p>
+                    </div>
+                </div>
+
+                <form id="transactionForm">
+
+                    <label>Transaction name</label>
+                    <input id="title" maxlength="80"
+                           placeholder="e.g. Lunch" required>
+
+                    <label>Amount (₹)</label>
+                    <input id="amount" type="number"
+                           min="0.01" max="10000000"
+                           step="0.01" placeholder="Enter amount" required>
+
+                    <label>Category</label>
+                    <select id="category" required>
+                        <option>Food</option>
+                        <option>Transport</option>
+                        <option>Education</option>
+                        <option>Shopping</option>
+                        <option>Entertainment</option>
+                        <option>Health</option>
+                        <option>Bills</option>
+                        <option>Other</option>
+                    </select>
+
+                    <label>Transaction type</label>
+                    <select id="kind">
+                        <option value="expense">Expense</option>
+                        <option value="income">Income</option>
+                    </select>
+
+                    <label>Date</label>
+                    <input id="date" type="date" required>
+
+                    <button type="submit">+ Add Transaction</button>
+                    <p id="formMessage" aria-live="polite"></p>
+                </form>
+            </div>
+
+            <div class="panel" id="budget-section">
+                <h2>Monthly Budget</h2>
+                <p>Set your monthly spending limit.</p>
+
+                <form id="budgetForm">
+                    <label>Budget amount (₹)</label>
+                    <input id="budgetInput" type="number"
+                           min="0.01" step="0.01" required>
+                    <button type="submit">Update Budget</button>
+                </form>
+
+                <div class="budget-info">
+                    <p>Spent: <strong id="budgetSpent">₹0</strong></p>
+                    <p>Limit: <strong id="budgetLimit">₹0</strong></p>
+                </div>
+
+                <div class="progress">
+                    <div id="progressBar"></div>
+                </div>
+
+                <p id="budgetStatus"></p>
+
+                <div class="projection">
+                    <p>Estimated monthly expenses</p>
+                    <h2 id="projection">₹0</h2>
+                    <small>Based on your current daily average.</small>
+                </div>
+            </div>
+
+        </section>
+
+        <section class="content-grid">
+
+            <div class="panel" id="analytics">
+                <h2>Spending Analytics</h2>
+                <p>Where does your money go?</p>
+                <div class="chart-container">
+                    <canvas id="expenseChart"></canvas>
+                </div>
+            </div>
+
+            <div class="panel">
+                <h2>Smart Insights</h2>
+                <p>Understand your financial habits.</p>
+                <div id="insights"></div>
+            </div>
+
+        </section>
+
+        <section class="panel">
+            <div class="section-heading">
+                <div>
+                    <h2>Recent Transactions</h2>
+                    <p>Your recorded financial activities</p>
+                </div>
+
+                <button id="exportButton" class="secondary">
+                    Export CSV
+                </button>
+            </div>
+
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Category</th>
+                            <th>Date</th>
+                            <th>Type</th>
+                            <th>Amount</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="transactionList"></tbody>
+                </table>
+            </div>
+        </section>
+
+        <footer>
+            SpendSense © 2026 | Smart Student Finance Manager
+        </footer>
+
+    </main>
+</div>
+
+<script src="{{ url_for('static', filename='app.js') }}"></script>
+
+</body>
+</html>
